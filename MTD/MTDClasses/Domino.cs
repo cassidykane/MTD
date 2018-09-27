@@ -29,10 +29,11 @@ namespace MTDClasses
             get { return side1; }
             set
             {
-                if (side1 < 0 || side1 > 14)
-                    throw new ArgumentOutOfRangeException(side1.ToString());
-                else
-                    side1 = value;
+                if (value < 0 || value > 14)
+                {
+                    throw new ArgumentException("value is out of range");
+                }
+                side1 = value;
             }
         }
 
@@ -42,10 +43,11 @@ namespace MTDClasses
             get { return side2; }
             set
             {
-                if (side2 < 0 || side2 > 14)
-                    throw new ArgumentOutOfRangeException(side2.ToString());
-                else
-                    side2 = value;
+                if (value < 0 || value > 14)
+                {
+                    throw new ArgumentException("value is out of range");
+                }
+                side2 = value;
             }
         }
 
