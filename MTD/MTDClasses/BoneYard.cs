@@ -11,11 +11,35 @@ namespace MTDClasses
     {
         private List<Domino> dominos;
 
-        public BoneYard(/*int maxDots*/)
+        public BoneYard(int maxDots)
         {
+            //int numOfDominos = ((maxDots*maxDots + 3 * maxDots + 2)/2);
             dominos = new List<Domino>();
+            if (maxDots > 0)
+            {
+                for (int side1 = 0; side1 <= maxDots; side1++)
+                {
+                    Domino domino = new Domino(side1, side1);
+                    dominos.Add(domino);
+                    if (side1 <= maxDots)
+                    {
+                        for (int side2 = side1 + 1; side2 <= maxDots; side2++)
+                        {
+                            domino = new Domino(side1, side2);
+                            dominos.Add(domino);
+                        }
+                    }
+                }
+            }
+
         }
 
+        public Domino this[int i]
+        {
+            get { return dominos[i]; }
+            set { dominos[i] = value; }
+        }
+        
         public int DominosRemaining
         {
             get
@@ -23,40 +47,38 @@ namespace MTDClasses
                 return dominos.Count();
             }
         }
- 
+        
         public void Add(Domino domino) => dominos.Add(domino);
-
+ 
         public void Shuffle()
         {
             var rand = new Random();
-            List<Domino> shuffledBones = new List<Domino>();
+            List<Domino> shuffled = new List<Domino>();
             int index;
+
             while (dominos.Count > 0)
             {
                 index = rand.Next(dominos.Count);
-                shuffledBones.Add(dominos[index]);
+                shuffled.Add(dominos[index]);
                 dominos.RemoveAt(index);
             }
-            foreach (Domino bone in shuffledBones)
-                dominos.Add(bone);
-        }
-        /*
-        public bool IsEmpty()
-        {
-
+            foreach (Domino d in shuffled)
+                dominos.Add(d);
         }
 
-        public int DominosRemaining
-        {
-        }
-
+        public bool IsEmpty() => (dominos.Count < 1) ? true : false;
+        
         public Domino Draw()
         {
-        }
+            Domino d;
+            var rand = new Random();
+            int index = rand.Next(dominos.Count);
 
-        public Domino this[int index]
-        {
+            d = dominos[index];
+            dominos.RemoveAt(index);
+            return d;
         }
+        /*
 
         public override string ToString()
         {
