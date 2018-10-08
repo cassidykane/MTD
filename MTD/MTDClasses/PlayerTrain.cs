@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace MTDClasses
 {
-    public class PlayerTrain
+    public class PlayerTrain : Train
     {
-        /*
+        private Hand hand;
+        private bool isOpen;
         public PlayerTrain(Hand h): base()
         {
+            hand = h;
         }
 
         /// <summary>
@@ -20,29 +22,24 @@ namespace MTDClasses
         /// <param name="engineValue">Represents the first playable value on the train</param>
         public PlayerTrain(Hand h, int engineValue) : base (engineValue)
         {
+            hand = h;
         }
 
         /// <summary>
         /// Returns whether or not the train is open.  An open train
         /// can be played upon by any player.
         /// </summary>
-        public bool IsOpen
-        {
-        }
+        public bool IsOpen => isOpen;
 
         /// <summary>
         /// Open the train
         /// </summary>
-        public void Open()
-        {
-        }
+        public void Open() => isOpen = true;
 
         /// <summary>
         /// Close the train
         /// </summary>
-        public void Close()
-        {
-        }
+        public void Close() => isOpen = false;
 
         /// <summary>
         /// Can the domino d be played by the hand h on this train?
@@ -52,9 +49,15 @@ namespace MTDClasses
         /// <param name="mustFlip"></param>
         /// <param name="h"></param>
         /// <returns></returns>
-        public override bool IsPlayable(Hand h, Domino d, out bool mustFlip)
+        public bool IsPlayable(Hand h, Domino d, out bool? mustFlip)
         {
+            if (h.Equals(hand) || isOpen)
+            {
+                if (base.IsPlayable(d, out mustFlip))
+                    return true;
+            }
+            mustFlip = null;
+            return false;
         }
-        */
     }
 }

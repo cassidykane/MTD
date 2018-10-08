@@ -49,6 +49,7 @@
     <Compile Include="Train.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Domino_BoneYard.cd" />
     <None Include="Hand.cd" />
     <None Include="Trains.cd" />

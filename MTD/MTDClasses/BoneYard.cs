@@ -21,14 +21,14 @@ namespace MTDClasses
                 {
                     Domino domino = new Domino(side1, side1);
                     dominos.Add(domino);
-                    if (side1 <= maxDots)
-                    {
+                    //if (side1 <= maxDots)
+                    //{
                         for (int side2 = side1 + 1; side2 <= maxDots; side2++)
                         {
                             domino = new Domino(side1, side2);
                             dominos.Add(domino);
                         }
-                    }
+                    //}
                 }
             }
 
@@ -78,8 +78,8 @@ namespace MTDClasses
             dominos.RemoveAt(index);
             return d;
         }
+        
         /*
-
         public override string ToString()
         {
         }

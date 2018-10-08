@@ -11,7 +11,7 @@ namespace MTDClasses
     /// </summary>
     public class Hand
     {
-        /*
+    /*    List<Domino> hand;
         /// <summary>
         /// The list of dominos in the hand
         /// </summary>
@@ -34,26 +34,31 @@ namespace MTDClasses
         /// <param name="numPlayers"></param>
         public Hand(BoneYard by, int numPlayers)
         {
+            //switch (numPlayers)
         }
 
-        public void Add(Domino d)
-        {
-        }
+        public void Add(Domino d) => hand.Add(d);
 
 
-        public int Count
-        {
-        }
+        public int Count => hand.Count();
 
-        public bool IsEmpty
-        {
-        }
+        public bool IsEmpty => (hand.Count < 1) ? true : false;
+        
 
         /// <summary>
         /// Sum of the score of each domino in the hand
         /// </summary>
         public int Score
         {
+            get
+            {
+                int total = 0;
+                foreach (Domino d in hand)
+                {
+                    total += d.Score;
+                }
+                return total;
+            }
         }
 
         /// <summary>
@@ -62,6 +67,12 @@ namespace MTDClasses
         /// <param name="value">The number of dots on one side of the domino that you're looking for</param>
         public bool HasDomino(int value)
         {
+            foreach (Domino d in hand)
+            {
+                if (d.Side1 == value || d.Side2 == value)
+                    return true;
+            }
+            return false;
         }
 
         /// <summary>
@@ -70,6 +81,12 @@ namespace MTDClasses
         /// <param name="value">The number of (double) dots that you're looking for</param>
         public bool HasDoubleDomino(int value)
         {
+            foreach (Domino d in hand)
+            {
+                if (d.Side1 == value && d.Side2 == value)
+                    return true;
+            }
+            return false;
         }
 
         /// <summary>
@@ -77,8 +94,14 @@ namespace MTDClasses
         /// </summary>
         /// <param name="value">The number of dots on one side of the domino that you're looking for</param>
         /// <returns>-1 if the domino doesn't exist in the hand</returns>
-        public int IndexOfDomino(int value)
+        public int? IndexOfDomino(int value)
         {
+            for (int i = 0; i < hand.Count; i++)
+            {
+                if (hand[i].Side1 == value || hand[i].Side2 == value)
+                    return i;
+            }
+            return null;
         }
 
         /// <summary>
@@ -86,8 +109,15 @@ namespace MTDClasses
         /// </summary>
         /// <param name="value">The number of (double) dots that you're looking for</param>
         /// <returns>-1 if the domino doesn't exist in the hand</returns>
-        public int IndexOfDoubleDomino(int value)
+        public int? IndexOfDoubleDomino(int value)
         {
+            for (int i = 0; i < hand.Count; i++)
+            {
+                if (hand[i].Side1 == value && hand[i].Side2 == value)
+                    return i;
+            }
+            return null;
+
         }
 
         /// <summary>

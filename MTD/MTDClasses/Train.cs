@@ -10,49 +10,45 @@ namespace MTDClasses
     /// </summary>
     public abstract class Train
     {
-
-        /*
-        public Train()
-        {
-        }
+        protected List<Domino> dominos;
+        protected int engineValue; 
+        
+        public Train() {}
 
         public Train(int engValue)
         {
+            engineValue = engValue;
+            dominos = new List<Domino>();
         }
 
-        public int Count
-        {
-        }
+        public int Count => dominos.Count;
 
         /// <summary>
         /// The first domino value that must be played on a train
         /// </summary>
-        public int EngineValue
-        {
-        }
+        public int EngineValue { get; set; }
 
-        public bool IsEmpty
-        {
-        }
+        public bool IsEmpty => (dominos.Count < 1) ? true : false;
 
-        public Domino LastDomino
-        {
-        }
+        public Domino LastDomino => dominos.Last();
 
         /// <summary>
         /// Side2 of the last domino in the train.  It's the value of the next domino that can be played.
         /// </summary>
-        public int PlayableValue
-        {
-        }
+        public int PlayableValue => LastDomino.Side2;
 
         public void Add(Domino d)
         {
+            dominos.Add(d);
+            engineValue = d.Side2;
         }
 
-        public Domino this[int index]
+        public Domino this[int i]
         {
+            get { return dominos[i]; }
+            set { dominos[i] = value; }
         }
+
 
         /// <summary>
         /// Determines whether a hand can play a specific domino on this train and if the domino must be flipped.
@@ -64,18 +60,39 @@ namespace MTDClasses
         /// A helper method that determines whether a specific domino can be played on this train.
         /// It can be called in the Mexican and Player train class implementations of the abstract method
         /// </summary>
-        protected bool IsPlayable(Domino d, out bool mustFlip)
+        protected bool IsPlayable(Domino d, out bool? mustFlip)
         {
+            if (d.Side1 == PlayableValue)
+            {
+                mustFlip = false;
+                return true;
+            } else if (d.Side2 == PlayableValue) 
+            {
+                mustFlip = true;
+                return true;
+            } else
+            {
+                mustFlip = null;
+                return false;
+            }
         }
 
         // assumes the domino has already been removed from the hand
         public void Play(Hand h, Domino d)
         {
+            if (IsPlayable(d, out bool? mustFlip))
+            {
+                if (mustFlip == true)
+                {
+                    d.Flip();
+                }
+                dominos.Add(d);
+            }
         }
-
+        
         public override string ToString()
         {
+            return engineValue.ToString();
         }
-        */
     }
 }
