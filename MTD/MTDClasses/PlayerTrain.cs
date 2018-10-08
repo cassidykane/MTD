@@ -8,7 +8,7 @@ namespace MTDClasses
 {
     public class PlayerTrain : Train
     {
-        private Hand hand;
+        private readonly Hand hand;
         private bool isOpen;
         public PlayerTrain(Hand h): base()
         {
@@ -49,15 +49,16 @@ namespace MTDClasses
         /// <param name="mustFlip"></param>
         /// <param name="h"></param>
         /// <returns></returns>
-        public bool IsPlayable(Hand h, Domino d, out bool? mustFlip)
+        public override bool IsPlayable(Hand h, Domino d, out bool? mustFlip)
         {
             if (h.Equals(hand) || isOpen)
             {
-                if (base.IsPlayable(d, out mustFlip))
+                if (IsPlayable(d, out mustFlip))
                     return true;
             }
             mustFlip = null;
             return false;
         }
+
     }
 }

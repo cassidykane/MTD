@@ -30,17 +30,22 @@ namespace MTDClasses
 
         public bool IsEmpty => (dominos.Count < 1) ? true : false;
 
-        public Domino LastDomino => dominos.Last();
+        public Domino LastDomino
+        {
+            get
+            {
+                return IsEmpty ? throw new ArgumentException("This train is empty") : dominos.Last();
+            }
+        }
 
         /// <summary>
         /// Side2 of the last domino in the train.  It's the value of the next domino that can be played.
         /// </summary>
-        public int PlayableValue => LastDomino.Side2;
+        public int PlayableValue => (IsEmpty) ? engineValue : LastDomino.Side2;
 
         public void Add(Domino d)
         {
             dominos.Add(d);
-            engineValue = d.Side2;
         }
 
         public Domino this[int i]
@@ -54,13 +59,13 @@ namespace MTDClasses
         /// Determines whether a hand can play a specific domino on this train and if the domino must be flipped.
         /// Because the rules for playing are different for Mexican and Player trains, this method is abstract.
         /// </summary>
-        public abstract bool IsPlayable(Hand h, Domino d, out bool mustFlip);
+        public abstract bool IsPlayable(Hand h, Domino d, out bool? mustFlip);
 
         /// <summary>
         /// A helper method that determines whether a specific domino can be played on this train.
         /// It can be called in the Mexican and Player train class implementations of the abstract method
         /// </summary>
-        protected bool IsPlayable(Domino d, out bool? mustFlip)
+        public bool IsPlayable(Domino d, out bool? mustFlip)
         {
             if (d.Side1 == PlayableValue)
             {
@@ -88,6 +93,8 @@ namespace MTDClasses
                 }
                 dominos.Add(d);
             }
+            else
+                throw new ArgumentException("This domino is not playable");
         }
         
         public override string ToString()

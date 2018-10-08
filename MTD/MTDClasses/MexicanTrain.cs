@@ -6,7 +6,18 @@ using System.Threading.Tasks;
 
 namespace MTDClasses
 {
-    public class MexicanTrain
+    public class MexicanTrain : Train
     {
+        public MexicanTrain(): base() { }
+
+        public MexicanTrain(int engineValue) : base(engineValue) { }
+
+        public override bool IsPlayable(Hand h, Domino d, out bool? mustFlip)
+        {
+            if (IsPlayable(d, out mustFlip))
+                return true;
+            mustFlip = null;
+            return false;
+        }
     }
 }
