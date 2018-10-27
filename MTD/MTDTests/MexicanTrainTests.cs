@@ -37,7 +37,7 @@ namespace MTDTests
         }
 
         [Test]
-        public void TestOverloadedConstructor()
+        public void TestConstructor()
         {
             Assert.AreEqual(mtEmpty.Count, 0);
             Assert.AreEqual(mtEmpty.EngineValue, 0);
@@ -77,6 +77,12 @@ namespace MTDTests
         }
 
         [Test]
+        public void TestLastDominoEmptyTrain()
+        {
+            Assert.IsNull(mtEmpty.LastDomino);
+        }
+
+        [Test]
         public void TestPlayableValue()
         {
             Assert.AreEqual(mt.PlayableValue, 1);
@@ -89,10 +95,33 @@ namespace MTDTests
         }
 
         [Test] 
-        public void TestPlay()
+        public void TestPlaySide1()
         {
-            mt.Play(h, d11);
-            Assert.AreEqual(mt.LastDomino, d11);
+            Domino d12 = new Domino(1, 2);
+            mt.Play(h, d12);
+            Assert.AreEqual(mt.LastDomino, d12);
+            Assert.AreEqual(mt.Count, 2);
+            Assert.AreEqual(mt.PlayableValue, 2);
+        }
+
+        [Test]
+        public void TestPlaySide2()
+        {
+            Domino d21 = new Domino(2, 1);
+            mt.Play(h, d21);
+            Assert.AreEqual(mt.LastDomino, d21);
+            Assert.AreEqual(mt.Count, 2);
+            Assert.AreEqual(mt.PlayableValue, 2);
+        }
+
+        [Test]
+        public void TestInvalidPlay()
+        {
+            Domino d22 = new Domino(2, 2);
+            Assert.Throws<ArgumentException>(() => mt.Play(h, d22));
+            Assert.AreEqual(mt.LastDomino, d01);
+            Assert.AreEqual(mt.Count, 1);
+            Assert.AreEqual(mt.PlayableValue, 1);
         }
     }
 }

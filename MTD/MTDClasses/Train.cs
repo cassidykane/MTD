@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,12 +9,10 @@ namespace MTDClasses
     /// <summary>
     /// Represents a generic Train for MTD
     /// </summary>
-    public abstract class Train
+    public abstract class Train : IEnumerable
     {
         protected List<Domino> dominos;
-        protected int engineValue; 
-        
-        public Train() {}
+        protected int engineValue;
 
         public Train(int engValue)
         {
@@ -26,17 +25,11 @@ namespace MTDClasses
         /// <summary>
         /// The first domino value that must be played on a train
         /// </summary>
-        public int EngineValue { get; set; }
+        public int EngineValue => engineValue;
 
         public bool IsEmpty => (dominos.Count < 1) ? true : false;
-
-        public Domino LastDomino
-        {
-            get
-            {
-                return IsEmpty ? throw new ArgumentException("This train is empty") : dominos.Last();
-            }
-        }
+        // change this to return null instead of arg exception
+        public Domino LastDomino => IsEmpty ? null : dominos.Last();
 
         /// <summary>
         /// Side2 of the last domino in the train.  It's the value of the next domino that can be played.
@@ -85,7 +78,7 @@ namespace MTDClasses
         // assumes the domino has already been removed from the hand
         public void Play(Hand h, Domino d)
         {
-            if (IsPlayable(d, out bool? mustFlip))
+            if (this.IsPlayable(h, d, out bool? mustFlip))
             {
                 if (mustFlip == true)
                 {
@@ -100,6 +93,12 @@ namespace MTDClasses
         public override string ToString()
         {
             return engineValue.ToString();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            foreach (Domino d in dominos)
+                yield return d;
         }
     }
 }

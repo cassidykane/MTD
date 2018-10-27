@@ -10,10 +10,6 @@ namespace MTDClasses
     {
         private readonly Hand hand;
         private bool isOpen;
-        public PlayerTrain(Hand h): base()
-        {
-            hand = h;
-        }
 
         /// <summary>
         /// This is the most appropriate constructor for the class.
@@ -23,6 +19,7 @@ namespace MTDClasses
         public PlayerTrain(Hand h, int engineValue) : base (engineValue)
         {
             hand = h;
+            isOpen = false;
         }
 
         /// <summary>
@@ -53,8 +50,7 @@ namespace MTDClasses
         {
             if (h.Equals(hand) || isOpen)
             {
-                if (IsPlayable(d, out mustFlip))
-                    return true;
+                return base.IsPlayable(d, out mustFlip);
             }
             mustFlip = null;
             return false;

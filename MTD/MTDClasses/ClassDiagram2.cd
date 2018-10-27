@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="MTDClasses.BoneYard">
+    <Position X="5.25" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAJAAAAAAAAAAgAACIAAAAAAAAAAAAAAAAgAAAAAEAA=</HashCode>
+      <FileName>BoneYard.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MTDClasses.Domino">
+    <Position X="0.5" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAQQIgEgACAAAEAAAAAAIAAAAAAAAAACiA=</HashCode>
+      <FileName>Domino.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MTDClasses.Hand">
+    <Position X="3" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>EAJQIAAAAAAAAgggCAAAAAQgAABACAAAiAAAAgAAAAA=</HashCode>
+      <FileName>Hand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MTDClasses.MexicanTrain">
+    <Position X="8.25" Y="5.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAA=</HashCode>
+      <FileName>MexicanTrain.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MTDClasses.PlayerTrain">
+    <Position X="5.25" Y="4.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAAAAIAAgAAAAAAAAAAAAAAgAAAAAACCAAAA=</HashCode>
+      <FileName>PlayerTrain.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MTDClasses.Train">
+    <Position X="7.5" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAJCAAAAAAAAAIAECIAQAAQAAAAAAAoAgAAAAAAAAAA=</HashCode>
+      <FileName>Train.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

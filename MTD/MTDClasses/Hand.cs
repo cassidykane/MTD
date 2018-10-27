@@ -136,6 +136,21 @@ namespace MTDClasses
         }
 
         /// <summary>
+        /// The index of a domino with both side values in the hand
+        /// </summary>
+        /// <param name="d">The number of dots on one side of the domino that you're looking for</param>
+        /// <returns>-1 if the domino doesn't exist in the hand</returns>
+        public int IndexOfDomino(Domino d)
+        {
+            for (int i = 0; i < hand.Count; i++)
+            {
+                if (hand[i].Side1 == d.Side1 && hand[i].Side2 == d.Side2)
+                    return i;
+            }
+            return -1;
+        }
+
+        /// <summary>
         /// The index of the double domino with the value you're looking for
         /// </summary>
         /// <param name="value">The number of (double) dots that you're looking for</param>
@@ -219,13 +234,8 @@ namespace MTDClasses
         public void Play(int index, Train t)
         {
             Domino d = hand[index];
-            if (t.IsPlayable(this, d, out bool? mustFlip))
-            {
-                t.Play(this, d);
-                hand.Remove(d);
-            }
-            else
-                throw new ArgumentException("This domino is not playable");
+            hand.Remove(d);
+            t.Play(this, d);
         }
 
         /// <summary>
@@ -239,8 +249,8 @@ namespace MTDClasses
         {
             if (!hand.Contains(d))
                 throw new ArgumentException("This domino is not in the hand");
-            t.Play(this, d);
             hand.Remove(d);
+            t.Play(this, d);
         }
 
         /// <summary>
