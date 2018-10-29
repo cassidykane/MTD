@@ -10,6 +10,10 @@ namespace MTDClasses
     public class BoneYard
     {
         private List<Domino> dominos;
+        public delegate void EmptyHandler(BoneYard by);
+        public event EmptyHandler AlmostEmpty;
+
+        public void HandleEmpty(BoneYard by) { }
 
         public BoneYard(int maxDots)
         {
@@ -27,7 +31,7 @@ namespace MTDClasses
                     }
                 }
             }
-
+            AlmostEmpty = new EmptyHandler(HandleEmpty);
         }
 
         public Domino this[int i]
@@ -72,6 +76,8 @@ namespace MTDClasses
 
             d = dominos[index];
             dominos.RemoveAt(index);
+            if (dominos.Count > 5)
+                AlmostEmpty(this);
             return d;
         }
         

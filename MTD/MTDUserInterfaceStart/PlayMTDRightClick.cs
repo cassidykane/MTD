@@ -16,9 +16,9 @@ namespace MTDUserInterface
     {
         #region Bugs and Questions
         // computer plays on seemingly random mexican train PBs
-        //      CompleteComputerMove() 
-        //      MakeComputerMove(): 
-        //      ComputerPlayOnTrain(): how do i use the "train" param?
+        // computer's train sometimes stays open when it passes
+        // ComputerPlayOnTrain(): how do i use the "train" param?
+        // throws an argument out of range exception in the hand index when i try to play on a train
         #endregion
 
         #region instance_variables
@@ -127,13 +127,12 @@ namespace MTDUserInterface
         public void UserPlayOnTrain(Domino d, Train train, List<PictureBox> trainPBs)
         {
             // plays a domino on a train.  Loads the appropriate train pb, 
-            int dominoIndex = userHand.IndexOfDomino(d);
             userHand.Play(d, train);
-            LoadDomino(trainPBs.Last(), d);
+            LoadDomino(trainPBs[train.Count], d);
 
             // removes the domino pb from the hand, updates the train status label ,
-            RemovePBFromForm(userHandPBs[dominoIndex]);
-            nextDrawIndex = dominoIndex;
+            RemovePBFromForm(userHandPBs[indexOfDominoInPlay]);
+            nextDrawIndex--;
             if (train is PlayerTrain && train.Equals(userTrain))
                 (train as PlayerTrain).Close();
             UpdateUI();
@@ -210,7 +209,11 @@ namespace MTDUserInterface
             if (computerHand.IsEmpty)
                 MessageBox.Show("Computer wins");
             else
+            {
                 currentTurn = "user";
+                EnableUserMove();
+            }
+            
         }
 
         public void EnableUserMove()
@@ -234,6 +237,7 @@ namespace MTDUserInterface
         {
             userTrainStatusLabel.Text = userTrain.IsOpen ? "Open" : "Closed";
             computerTrainStatusLabel.Text = computerTrain.IsOpen ? "Open" : "Closed";
+            LoadHand(userHandPBs, userHand);
         }
         
         public void SetUp()
@@ -401,7 +405,7 @@ namespace MTDUserInterface
             // play on the mexican train
             // lets the computer take a move 
             // enables hand pbs so the user can make the next move.
-            UserPlayOnTrain(userHand[indexOfDominoInPlay], mexicanTrain, mexicanTrainPBs);
+            UserPlayOnTrain(userDominoInPlay, mexicanTrain, mexicanTrainPBs);
             CompleteComputerMove();
             EnableUserMove();
         }
@@ -415,10 +419,10 @@ namespace MTDUserInterface
             EnableUserMove();
         }
 
-        // play on the user train, lets the computer take a move and then enables
-        // hand pbs so the user can make the next move.
         private void myTrainItem_Click(object sender, EventArgs e)
         {
+            // play on the user train, lets the computer take a move and then enables
+            // hand pbs so the user can make the next move.
             UserPlayOnTrain(userHand[indexOfDominoInPlay], userTrain, userTrainPBs);
             CompleteComputerMove();
             EnableUserMove();
@@ -431,21 +435,30 @@ namespace MTDUserInterface
             SetUp();
         }
 
-        // draw a domino, add it to the hand, create a new pb and enable the new pb
         private void drawButton_Click(object sender, EventArgs e)
         {
+            // draw a domino, add it to the hand, create a new pb and enable the new pb
+            userHand.Draw(boneYard);
+            userHandPBs.Add(CreateUserHandPB(nextDrawIndex));
+            EnableHandPB(userHandPBs.Last());
+            UpdateUI();
         }
 
         // open the user's train, update the ui and let the computer make a move
         // enable the hand pbs so the user can make a move
         private void passButton_Click(object sender, EventArgs e)
         {
+            userTrain.Open();
+            UpdateUI();
+            CompleteComputerMove();
+            EnableUserMove();
         }
 
         private void PlayMTDRightClick_Load(object sender, EventArgs e)
         {
             // register the boneyard almost empty event and it's delegate here
             SetUp();
+            boneYard.AlmostEmpty += new BoneYard.EmptyHandler(RespondToEmpty);
         }
 
 		// event handler for handling the boneyard almost empty event
